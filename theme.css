@@ -24,15 +24,26 @@ h1,h2 {
 h2 { font-size: 2em; }
 h1 { font-size: 3em; }
 
+.math em {
+    color: var(--textcolor);
+}
+
 /* Useful classes for presentation
  * BYOC, bring your own classes
  */
-
-.titlepage {
-    text-align: center;
-}
 
 .center {
     margin: 1ch auto;
     text-align: center;
 }
+
+/* title page */
+.titlepage { text-align: center; }
+p.author { font-weight: bold;}
+p.subtitle {
+    font-size: 1.5em;
+    color: var(--titlecolor);
+}
+p.institute { text-decoration: underline; }
+p.date { font-style: italic; }
+
