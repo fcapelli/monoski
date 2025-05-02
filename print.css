@@ -1,0 +1,13 @@
+@media print {
+    /* All your print styles go here */
+    @page {
+	size: 20.75in 10.36in;
+	margin: 0;
+    }
+    .slide {
+	width: 20.75in;
+	height: 10.36in;
+	page-break-after: always;
+	overflow: hidden;
+    }
+}

@@ -10,7 +10,7 @@ It supports:
 
 - Fragments in slides in a similar fashion as RevealJS but with improvements (see [Fragments section](#fragments) below)
 - PDF export by printing to file,
-- Easily generates javascript-free slides: navigation could be done by scrolling (using CSS scroll-snap properties) 
+- Easily generates javascript-free slides: navigation could be done by scrolling (using CSS scroll-snap properties). This is not implemented (yet?) but exporting the generated DOM and removing javascript file should work!
 - Unique URL for each (fragment of a) slide. 
 
 ## Why
@@ -27,7 +27,7 @@ Later, I hit a more annoying limitation. On a slide, I had a fragment block that
 
 Most of my critics have workaround, but then you need to interfere with parts of reveal.js I would prefer to stay away from. Moreover, I realised at some point that I was using only a fraction of reveal.js. I had ditched most of the theming to fit my tastes and a large portion of the heavy lifting (like compiling from markdown or displaying latex math mode) was done by pandoc anyway. I hence started playing with the idea of developing a very minimalistic framework fitting only my needs. *How hard could it be?* I wanted it to be as simple as possible and yet implement PDF export and the fragment mecanism. 
 
-One day I was actively procrastinating on HackerNews, someone linked to [Dave Gauer's minislides framework](http://ratfactor.com/minslides/). As a geek on the lower side of the tech, I immediately loved it! Resizing each slide to be of the size of the viewport and then using `scrollIntoView()` function to navigate the slides is just neat! And with only a few line of CSS, one can get the PDF export for free: just add a page break after every slide! I was playing with the idea of using it as my daily driver for making presentations but fragments were missing. But, that shouldn't be so hard to add fragment mecanism to it, should it? Turns out, it's not, and I added some improvement from the reveal.js approach: fragment can have more than one index, they can be easily displayed at the start by just adding class `.current-fragment` and the indices can be strings, appearing in alphabetical order (hell, this is useful if you want to insert a new fragment between fragment 23 and 24 without translating everything, just make the fragment appears at index "23a"!).
+One day I was actively procrastinating on HackerNews, someone linked to [Dave Gauer's minislides framework](http://ratfactor.com/minslides/). As a geek on the lower side of the tech, I immediately loved it! Resizing each slide to be of the size of the viewport and then using `scrollIntoView()` function to navigate the slides is just neat! And with only a few lines of CSS, one can get the PDF export for free: just add a page break after every slide! I was playing with the idea of using it as my daily driver for making presentations but fragments were missing. But, that shouldn't be so hard to add fragment mecanism to it, should it? Turns out, it's not, and I added some improvement from the reveal.js approach: fragment can have more than one index, they can be easily displayed at the start by just adding class `.current-fragment` and the indices can be strings, appearing in alphabetical order (hell, this is useful if you want to insert a new fragment between fragment 23 and 24 without translating everything, just make the fragment appears at index "23a"!).
 
 Hence, `monoski`. Took me more time to find the name and write this README than to write the code. I sprinkle a few other functionalities I needed: implement a URL mecanism to point toward one slide in particular, add slide numbers and make a mecanism that is compatible between navigating the presentation using javascript or by scrolling! I am happy with the result, and I want to share it here! Hope you will enjoy it and use it to hack it to your need and make nice slides!
 
@@ -57,11 +57,31 @@ Here is a minimal example of a presentation:
 
 ### From HTML 
 
-Include `monoski.js` and `monoski.css` in your HTML file and start writing your slides. Each slide is a block with the CSS class `slide`. If you need to animate a slide (in the sense that some part )
+Include `monoski.js` and `monoski.css` in your HTML file and start writing your slides. Each slide is a block with the CSS class `slide`. If you need to animate a slide (in the sense that some part will appear after a few transition), you need to use the fragment mecanism. It is really similar to the [one of reveal.js](https://revealjs.com/fragments/) but I added a few things I usually need. 
+
+An example is better than words (see [Fragments section](#fragments)) for a technical explanation of how it works (or read the code).
+
+``` html
+<div class="slide">
+<h2>Fragment illustration</h2>
+
+<p class="fragment fade current-fragment">I will show you a list</p>
+
+<ul>
+<li>Here from the start</li>
+<li class="fragment">Appears on the first fragment; fragment index is 1 implicitly</li>
+<li class="fragment" data-fragment-index="1">Appears on the first fragment too</li>
+<li class="fragment">Appears on the second fragment; fragment index is 2 implicitly</li>
+<li class="fragment fade" data-fragment-index="1 foo">Appears on the first and last fragment</li>
+</ul>
+</div>
+```
+
+If a block has class `fragment`, then it will be hidden until its fragment index is visited. It then stays on the slide except if it has the `fade` class. A block may have several indices separated by spaces and specified in the `data-fragment-index` attribute. Indices may be any string without whitespaces. If no fragment index is given, it will get a number as index, corresponding to its rank in the DOM. The first paragraph will appear right away because it has the `current-fragment` class then disappear because it has the `fade` class. See `fragment.css` to get an idea on how it works!
 
 ### From pandoc
 
-You can easily generate your presentation from markdown using [pandoc](https://pandoc.org/). Indeed, most html-based slides solution are based on the same idea of having each slide in a block with class `slide` so we can directly use 
+As I said, I am pretty low tech but too lazy to write HTML directly. You can easily generate your presentation from markdown using [pandoc](https://pandoc.org/). Indeed, most html-based slides frameworks are based on the same idea of having each slide in a block with class `slide` so we can directly use the `s5` export of pandoc for example with a small template. See the demo folder for an example ! Pandoc has a lovely syntax for span and fenced divs that I really enjoy while typing lecture notes or presentations. 
 
 ### Fragments{#fragments}
 
@@ -117,6 +137,12 @@ There is a small caveat to it: if you want a block to replace another. The trick
 will replace Hello by world after the first transition. 
 
 If you cannot express what you need in pure CSS, then maybe you need to modify the `generate_fragment()` function in `monoski.js` that is the one that generates every version of a given slide! It is a very short and hopefuly readable function, so do not hesistate to modify it!
+
+### PDF export and printing
+
+PDF export is done via printing to a file. Since each slide and its fragments appear in successive blocks, one can "simply" print each such block on a new page using CSS defined page break. This is defined in `print.css`. I am using predefined 16:9 paper size that I think looks good but you can easily change that. 
+
+An idea illustrating what is possible: change body to be a 3x2 grid and make slides smaller to get a printable handout of the presentation!
 
 ### General layout
 

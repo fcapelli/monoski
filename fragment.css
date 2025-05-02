@@ -1,0 +1,40 @@
+.fragment {
+    visibility: hidden;
+}
+
+.fragment.fragment-visited {
+    visibility: visible;
+}
+
+.fragment.fade {
+    visibility: hidden;
+}
+.fragment.current-fragment {
+    visibility: visible;
+}
+
+.fragment.highlight {
+    visibility: visible;
+}
+
+.fragment.highlight.current-fragment {
+    color: var(--highlight-textcolor);
+    background: var(--highlight-bgcolor);
+}
+
+.rstack {
+    display: grid;
+    grid-template-columns: auto;
+    align-items: center;
+}
+
+.istack {
+    display: inline-grid;
+    grid-template-columns: auto;
+    align-items: center;
+}
+
+.rstack > *, .istack > * {
+    grid-row: 1;
+    grid-column: 1;
+}

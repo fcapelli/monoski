@@ -1,0 +1,41 @@
+/* Somewhat responsive font */
+:root {
+    --font-base: 30px;
+}
+
+body {
+    margin: 0;
+    font-size:  calc(var(--font-base) + 0.390625vw);
+}
+
+/* Slide are displayed as flex for vertical centering
+ * Feel free to change it!
+ */
+.slide {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
+    justify-content: center;
+    padding: 0 5ch;
+    box-sizing: border-box;
+    position: relative;
+}
+
+/* Slide number */
+.slide-number {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    font-size: 0.5em;
+    padding:1ch;
+}
+
+/* Move slides using scrolling */
+.slide {
+    scroll-snap-align: start;
+}
+html {
+    scroll-snap-type: y mandatory;
+}

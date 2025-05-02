@@ -1,0 +1,38 @@
+:root {
+    --bgcolor: #f0f1eb;
+    --titlecolor: #f60;
+    --strongcolor: #6c71c4;
+    --emcolor: #2aa198;
+    --highlight-bgcolor: #f60;
+    --highlight-textcolor: #000;
+}
+
+strong {color: var(--strongcolor);}
+em {color: var(--emcolor);}
+.slide { background: var(--bgcolor); }
+
+h1,h2,h3,h4,h5,h6 {
+    color: var(--titlecolor);
+    font-weight: normal;
+}
+
+h1,h2 {
+    margin: 10px auto;
+    text-align: center;
+}
+
+h2 { font-size: 2em; }
+h1 { font-size: 3em; }
+
+/* Useful classes for presentation
+ * BYOC, bring your own classes
+ */
+
+.titlepage {
+    text-align: center;
+}
+
+.center {
+    margin: 1ch auto;
+    text-align: center;
+}
