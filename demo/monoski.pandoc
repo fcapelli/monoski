@@ -49,7 +49,7 @@ $if(subtitle)$
 $endif$
 $if(author)$
   <p class="author">
-$for(author)$$author$$sep$<br/>$endfor$
+$for(author)$ $author$ $endfor$
   </p>
 $endif$
 $if(institute)$
@@ -59,7 +59,7 @@ $for(institute)$$institute$$sep$<br/>$endfor$
 $endif$
 $if(date)$
   <p class="date">$date$</p>
-$endif$
+  $endif$
 </div>
 $endif$
 $if(toc)$

@@ -7,6 +7,7 @@
     --highlight-textcolor: #000;
 }
 
+body {font-family: sans-serif;}
 strong {color: var(--strongcolor);}
 em {color: var(--emcolor);}
 .slide { background: var(--bgcolor); }
@@ -39,6 +40,8 @@ h1 { font-size: 3em; }
 
 /* title page */
 .titlepage { text-align: center; }
+.titlepage p, .titlepage h1, .titlepage h2 { margin: 0.5ch; }
+
 p.author { font-weight: bold;}
 p.subtitle {
     font-size: 1.5em;
@@ -47,3 +50,29 @@ p.subtitle {
 p.institute { text-decoration: underline; }
 p.date { font-style: italic; }
 
+/* media */
+figure {
+    margin: auto;
+    text-align: center;
+    margin: 1ch;
+}
+
+figure img {
+
+}
+figcaption {
+    font-size: 0.5em;
+}
+
+/*useful*/
+.split {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    align-items: center;
+}
+
+.box {
+    border: 0.5ch solid black;
+    text-align: center;
+    padding: 0 2ch;
+}

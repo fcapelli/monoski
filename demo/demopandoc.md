@@ -159,8 +159,9 @@ Just force everything on the same place using `rstack` class:
 ## From markdown to monoski
 
 - Follow the usual slide structure: one div with class `slide` for a slide
-- For example `pandoc -s -t s5 file.md -o file.html` generates the right structure!
+- For example `pandoc -s -t dzslides file.md -o file.html` generates the right structure!
 - Only use custom template to add `monoski.js` and `monoski.css`!
+- *Future work (maybe?)*: a dedicated pandoc templating method
 
 ## Example
 

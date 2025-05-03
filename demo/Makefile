@@ -1,3 +1,3 @@
 all: demopandoc.html
 %.html: %.md
-	pandoc -t s5 -s --template monoski.pandoc $< -o $@
+	pandoc -t dzslides -s --template monoski.pandoc $< -o $@
