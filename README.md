@@ -81,7 +81,7 @@ If a block has class `fragment`, then it will be hidden until its fragment index
 
 ### From pandoc
 
-As I said, I am pretty low tech but too lazy to write HTML directly. You can easily generate your presentation from markdown using [pandoc](https://pandoc.org/). Indeed, most html-based slides frameworks are based on the same idea of having each slide in a block with class `slide` so we can directly use the `s5` export of pandoc for example with a small template. See the demo folder for an example ! Pandoc has a lovely syntax for span and fenced divs that I really enjoy while typing lecture notes or presentations. 
+As I said, I am pretty low tech but too lazy to write HTML directly. You can easily generate your presentation from markdown using [pandoc](https://pandoc.org/). Indeed, most html-based slides frameworks are based on the same idea of having each slide in a block with class `slide` so we can directly use the `revealjs` export of pandoc for example with a small template. See the demo folder for an example ! Pandoc has a lovely syntax for span and fenced divs that I really enjoy while typing lecture notes or presentations. 
 
 ### Fragments{#fragments}
 

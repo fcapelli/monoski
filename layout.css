@@ -21,6 +21,7 @@ body {
     padding: 0 5ch;
     box-sizing: border-box;
     position: relative;
+    overflow: hidden;
 }
 
 /* Slide number */

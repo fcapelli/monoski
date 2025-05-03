@@ -3,11 +3,16 @@
     --titlecolor: #f60;
     --strongcolor: #6c71c4;
     --emcolor: #2aa198;
+    --textcolor: #000;
     --highlight-bgcolor: #f60;
     --highlight-textcolor: #000;
+    --excolor: #080;
+    --importantcolor:#dc322f;
 }
 
-body {font-family: sans-serif;}
+body {
+    color: var(--textcolor);
+}
 strong {color: var(--strongcolor);}
 em {color: var(--emcolor);}
 .slide { background: var(--bgcolor); }
@@ -20,14 +25,14 @@ h1,h2,h3,h4,h5,h6 {
 h1,h2 {
     margin: 10px auto;
     text-align: center;
+    font-size: 2em;
 }
-
-h2 { font-size: 2em; }
-h1 { font-size: 3em; }
 
 .math em {
     color: var(--textcolor);
 }
+
+p{ margin: 0.5ch; }
 
 /* Useful classes for presentation
  * BYOC, bring your own classes
@@ -37,6 +42,52 @@ h1 { font-size: 3em; }
     margin: 1ch auto;
     text-align: center;
 }
+
+.small { font-size: 0.8em; }
+.tiny {  font-size: 0.5em; }
+cite { font-style: italic; }
+
+.example {
+    color: var(--excolor);
+    font-weight: bold;
+}
+.important {
+    color: var(--importantcolor);
+    font-weight: bold;
+}
+
+.split {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    align-items: center;
+    align-content: center;
+}
+
+.box {
+    margin: 1ch;
+    border: 0.3ch solid;
+    text-align: center;
+    padding: 1ch 0;
+}
+
+.illustration {
+    display: grid;
+    grid-template-columns: 40% 60%;
+    align-items: center;
+}
+
+.illustration img {
+    width: 100%;
+}
+
+
+.references {
+    font-size: 0.5em;
+    margin-top: 2ch;
+}
+
+.katex { font-size: 0.8em !important; }
+
 
 /* title page */
 .titlepage { text-align: center; }
@@ -57,22 +108,22 @@ figure {
     margin: 1ch;
 }
 
-figure img {
-
-}
 figcaption {
     font-size: 0.5em;
 }
 
-/*useful*/
-.split {
-    display: grid;
-    grid-template-columns: 50% 50%;
-    align-items: center;
+table {
+    border-collapse: collapse;
+    margin: 1ch;
+    text-align: center;
+}
+table tr {
+    border-bottom: 1px solid var(--textcolor);
+}
+table td {
+    padding: 0.5ch;
 }
 
-.box {
-    border: 0.5ch solid black;
-    text-align: center;
-    padding: 0 2ch;
-}
+ul { margin: 0.5ch; }
+li { margin: 0; }
+
