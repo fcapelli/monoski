@@ -2,17 +2,20 @@
     /* All your print styles go here */
     body {
 	margin: 0;
-	font-size: 10px;
+	font-size: 30px;
     }
 
     @page {
-	size: 480px 300px;
+	size: 1920px 1200px;
 	margin: 0;
     }
     .slide {
-	width: 480px;
-	height: 300px;
+	width: 1920px;
+	height: 1200px;
 	page-break-after: always;
 	overflow: hidden;
+    }
+    #monoski-controler {
+	display: none;
     }
 }

@@ -76,8 +76,9 @@ cite { font-style: italic; }
     align-items: center;
 }
 
-.illustration img {
+.illustration img, figure img {
     width: 100%;
+    height: auto;
 }
 
 
@@ -86,8 +87,16 @@ cite { font-style: italic; }
     margin-top: 2ch;
 }
 
+.row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
 .katex { font-size: 0.8em !important; }
 
+   
 
 /* title page */
 .titlepage { text-align: center; }
@@ -120,10 +129,12 @@ table {
 table tr {
     border-bottom: 1px solid var(--textcolor);
 }
-table td {
-    padding: 0.5ch;
+table td, table th {
+    padding: 0.2ch 0.5ch;
+    
 }
 
 ul { margin: 0.5ch; }
+
 li { margin: 0; }
 

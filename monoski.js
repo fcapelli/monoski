@@ -14,7 +14,13 @@ function generate_fragments(s,i,n) {
     );
 
     // Sorting fragment Keys 
-    var frKeys = Object.keys(frObj).sort();
+    var frKeys = Object.keys(frObj).sort( function (a,b) {
+	na = isNaN(parseInt(a)) ? -1 : parseInt(a); // parseInt parses the longest int prefix.
+	nb = isNaN(parseInt(b)) ? -1 : parseInt(b);
+	if (na == nb) { return a > b ? 1 : -1 }
+	else { return na-nb}
+    }
+    );
 
     // Slide number box
     var divSlideNumber = document.createElement("div");
@@ -34,6 +40,11 @@ function generate_fragments(s,i,n) {
 }
 
 document.addEventListener("DOMContentLoaded", function (e) {
+    // data src for reveal compatibility
+    document.querySelectorAll("img[data-src]").forEach( function (e) {
+	e.setAttribute("src",e.getAttribute("data-src"));
+	e.setAttribute("loading","lazy");
+    });
     // Generate fragments of every slide
     document.querySelectorAll(".slide").forEach((s,i,t) => generate_fragments(s,i+1,t.length));
 
@@ -60,10 +71,34 @@ document.addEventListener("DOMContentLoaded", function (e) {
     
     /* Keyboard navigation */
     document.addEventListener('keydown', function(event){
-        if(event.key == 'j' || event.key === "ArrowRight"){ current = current >= slides.length-1 ? slides.length-1 : current+1 }
-        if(event.key == 'k' || event.key === "ArrowLeft"){ current = current <= 0 ? 0 : current-1; }
+	
+	if(event.key == 'j' || event.key === "ArrowRight" || event.key === "ArrowDown"){ event.preventDefault(); current = current >= slides.length-1 ? slides.length-1 : current+1 }
+        if(event.key == 'k' || event.key === "ArrowLeft" || event.key === "ArrowUp"){ event.preventDefault(); current = current <= 0 ? 0 : current-1; }
 	update_slide(current,slides);
     });
+
+    /* Control Navigation */
+    var divControl = document.createElement("div");
+    divControl.id = "monoski-controler";
+    var buttonPrev = document.createElement("button");
+    var buttonNext = document.createElement("button");
+    var buttonPrint = document.createElement("button");
+
+    buttonPrev.innerHTML = "<";
+    buttonPrint.innerHTML = "🖨";
+    buttonNext.innerHTML = ">";
+    
+    divControl.append(buttonPrev);
+    divControl.append(buttonPrint);
+    divControl.append(buttonNext);
+
+    buttonPrev.addEventListener('click', function(e) { current = current <= 0 ? 0 : current-1;
+						       update_slide(current, slides); });
+    buttonNext.addEventListener('click', function(e) { current = current >= slides.length-1 ? slides.length-1 :
+						       current+1; update_slide(current, slides); });
+
+    buttonPrint.addEventListener('click', function(e) { window.print(); });
+    document.body.appendChild(divControl);    
 
 
     /* Scrolling navigation */
@@ -71,7 +106,6 @@ document.addEventListener("DOMContentLoaded", function (e) {
     /* Implicitly handle index.html#idslide redirection! */
     /* BEWARE: assume slides are vertically aligned */
     addEventListener("scroll", function(event) {
-	console.log("scrolled");
 	current = Math.floor(window.scrollY/window.innerHeight);
 	window.location.hash = `/${current}`;
     });

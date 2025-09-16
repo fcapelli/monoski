@@ -14,13 +14,43 @@
 }
 
 .fragment.highlight {
-    visibility: visible;
+    visibility: inherit;
 }
 
 .fragment.highlight.current-fragment {
     color: var(--highlight-textcolor);
     background: var(--highlight-bgcolor);
 }
+
+.fragment.highlighted {
+    visibility: visible;
+}
+
+.fragment.highlighted.current-fragment, .fragment.highlighted.fragment-visited:not(.fade) {
+    color: var(--highlight-textcolor);
+    background: var(--highlight-bgcolor);
+}
+
+.fragment.highlight-in.current-fragment {
+    color: var(--highlight-textcolor);
+    background: var(--highlight-bgcolor);
+}
+
+
+
+
+.fragment.strike.current-fragment, .fragment.strike.fragment-visited {
+    text-decoration:line-through;
+}
+
+.fragment.remove.fragment-visited {
+    visibility: hidden;
+}
+.fragment.remove:not(.fragment-visited) {
+    visibility: inherit;
+}
+
+
 
 .rstack {
     display: grid;
