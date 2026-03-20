@@ -13,7 +13,7 @@
     visibility: visible;
 }
 
-.fragment.highlight {
+.fragment.visible, .fragment.highlight {
     visibility: inherit;
 }
 
@@ -29,6 +29,21 @@
 .fragment.highlighted.current-fragment, .fragment.highlighted.fragment-visited:not(.fade) {
     color: var(--highlight-textcolor);
     background: var(--highlight-bgcolor);
+
+}
+
+.fragment.highlighted.current-fragment ellipse,
+.fragment.highlighted.fragment-visited:not(.fade) ellipse,
+.fragment.highlighted.current-fragment polygon,
+.fragment.highlighted.fragment-visited:not(.fade) polygon {
+    color: var(--highlight-textcolor);
+    background: var(--highlight-bgcolor) !important;
+    fill: var(--highlight-bgcolor) !important;
+    stroke: var(--highlight-bgcolor) !important;
+}
+.fragment.highlighted.current-fragment path,
+.fragment.highlighted.fragment-visited:not(.fade) path {
+    stroke: var(--highlight-bgcolor) !important;
 }
 
 .fragment.highlight-in.current-fragment {
@@ -43,7 +58,7 @@
     text-decoration:line-through;
 }
 
-.fragment.remove.fragment-visited {
+.fragment.remove.fragment-visited:not(.current-fragment), .fragment.remove.fragment-visited:not(.current-fragment) * {
     visibility: hidden;
 }
 .fragment.remove:not(.fragment-visited) {
@@ -68,3 +83,5 @@
     grid-row: 1;
     grid-column: 1;
 }
+
+

@@ -36,6 +36,7 @@ function generate_fragments(s,i,n) {
 	    function (e) { e.classList.remove("current-fragment"); e.classList.add("fragment-visited")} 
 	); // modify s by removing current-fragment and adding visited-fragment classes
 	frObj[k].forEach(f=>f.classList.add("current-fragment")); // add current-fragment class to new fragments
+
     });
 }
 
@@ -45,6 +46,12 @@ document.addEventListener("DOMContentLoaded", function (e) {
 	e.setAttribute("src",e.getAttribute("data-src"));
 	e.setAttribute("loading","lazy");
     });
+
+    document.querySelectorAll("iframe[data-src]").forEach( function (e) {
+	e.setAttribute("src",e.getAttribute("data-src"));
+	e.setAttribute("loading","lazy");
+    });
+
     // Generate fragments of every slide
     document.querySelectorAll(".slide").forEach((s,i,t) => generate_fragments(s,i+1,t.length));
 
@@ -62,7 +69,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
     function update_slide(current,slides) {
         if(current < 0){ current = 0; }
         if(current >= slides.length){ current = slides.length - 1; }
-        slides[current].scrollIntoView();
+        slides[current].scrollIntoView();	
 //	window.location.hash = `/${current}`;
     };
 

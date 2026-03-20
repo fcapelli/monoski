@@ -12,6 +12,7 @@
 
 body {
     color: var(--textcolor);
+    background: var(--bgcolor);
 }
 strong {color: var(--strongcolor);}
 em {color: var(--emcolor);}
@@ -28,6 +29,9 @@ h1,h2 {
     font-size: 2em;
 }
 
+h1 {
+    font-variant-caps: small-caps;
+}
 .math em {
     color: var(--textcolor);
 }
@@ -45,7 +49,12 @@ p{ margin: 0.5ch; }
 
 .small { font-size: 0.8em; }
 .tiny {  font-size: 0.5em; }
-cite { font-style: italic; }
+cite, blockquote { font-style: italic; }
+
+blockquote cite {
+    font-size: 0.5em;
+    text-decoration: underline;
+}
 
 .example {
     color: var(--excolor);
@@ -63,12 +72,29 @@ cite { font-style: italic; }
     align-content: center;
 }
 
-.box {
+.split70 {
+    display: grid;
+    grid-template-columns: 30% 70%;
+    align-items: center;
+    align-content: center;
+}
+
+
+.box, .hbox {
     margin: 1ch;
     border: 0.3ch solid;
     text-align: center;
     padding: 1ch 0;
 }
+
+.box h3, .hbox h3 {
+    margin: 0.5ch;
+}
+
+.hbox.current-fragment {
+  backdrop-filter: brightness(300%);
+}
+
 
 .illustration {
     display: grid;
@@ -89,8 +115,23 @@ cite { font-style: italic; }
 
 .row {
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;
     align-items: center;
+}
+
+.col {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+
+.full-height {
+    height: 80%;
+}
+.full-width {
+    width: 80%;
 }
 
 
@@ -134,7 +175,55 @@ table td, table th {
     
 }
 
+table.small-table {
+    width: auto;
+    flex-shrink: 0;
+}
+
+table.small-table, table.small-table td, table.small-table th {
+    border: 1px solid var(--textcolor);
+    flex-shrink: 0;
+}
+
+table.align {
+    text-align: left;
+}
+table.align td, table.align tr {
+    border: none;
+}
+    
+
+marker {
+  visibility: visible;
+}
+
 ul { margin: 0.5ch; }
 
 li { margin: 0; }
 
+div.sourceCode {
+    padding: 1ch;
+    border: 3px solid black;
+}
+
+.pandoc-compile svg {
+    width: 100%;
+}
+
+h1.full-title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+    
+}
+
+h1.full-title span {
+    background-color: rgb(255,255,255,0.8);
+}
