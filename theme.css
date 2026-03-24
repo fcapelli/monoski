@@ -217,13 +217,16 @@ h1.full-title {
     height: 100%;
     width: 100%;
     margin: 0;
+    background: none;
+    }
+section.full-title {
     background-repeat: no-repeat;
     background-size: cover;
     background-attachment: fixed;
     background-position: center;
-    
 }
 
 h1.full-title span {
-    background-color: rgb(255,255,255,0.8);
+    background-color: rgb(255,255,255,0.9);
+    padding: 1ch;
 }

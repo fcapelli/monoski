@@ -36,68 +36,80 @@ function generate_fragments(s) {
     d.node = s;
     d.frOrder = frKeys;
     d.frNodes = frObj;
+    d.currentFrag = 0; // last fragment computed in the slide
     return d;
 }
 
 /* Render slide from precomputed array; new/previous state  */
 function renderSlide(slidesArray, nstate, pstate) {
-
-    d = slidesArray[nstate.sidx];
-    currentSlide =d.node;
-    fidx = nstate.fidx; 
+    s = slidesArray[nstate.sidx];
+    slideNode = s.node;
+    fragmentIdx = nstate.fidx;
+    lastFragmentIdx = s.currentFrag;
     
-    // Show the new slide
-    if (nstate.sidx != pstate.sidx) {
-	if (pstate.sidx>=0) // initialized with -1, avoid out of bounds.
-	    slidesArray[pstate.sidx].node.style.display = 'none';
-	
-	currentSlide.style.display = 'flex';
+    // Display slide if changed
+    if (pstate.sidx != nstate.sidx) {
+	slideNode.style.display = 'flex';
+	if  (pstate.sidx >= 0) slidesArray[pstate.sidx].node.style.display='none'; // not the first load
     }
-    
-    document.querySelector(".slide-number").innerHTML = `${nstate.sidx+1}.${nstate.fidx+1}/${slidesArray.length}`;
+        
+    if (lastFragmentIdx < fragmentIdx) {
 
-    console.log(nstate);
-    currentFragment = d.frNodes[d.frOrder[fidx]];
-    nfrag = d.frOrder.length;
-    
-    currentSlide.querySelectorAll(".current-fragment").forEach(
-	function (e) { e.classList.remove("current-fragment"); }
-    ); // reset classes in slide by removing current-fragment
-    currentSlide.querySelectorAll(".fragment-visited").forEach(
-	function (e) { e.classList.remove("fragment-visited"); }
-    ); // reset classes in slide by removing fragment-visited classes
-
-    currentFragment.forEach(e => e.classList.add("current-fragment"));
-
-
-    // add visited fragment to the others
-    for(i=0; i<fidx;i++) {
-	d.frNodes[d.frOrder[i]].forEach(function (e) {
-	    if (!e.classList.contains("fragment-visited")) { // new fragment-visited are taged as such
+	// The last rendered fragment is behind the current fragment
+	// Remove current fragment and add fragment visited to the last rendered fragment
+	s.frNodes[s.frOrder[lastFragmentIdx]].forEach(function (e) {
+	    e.classList.add("fragment-visited");
+	    e.classList.remove("current-fragment");
+	}
+				       );
+	
+	// Deal with fragments in between
+	for(i=lastFragmentIdx+1; i<fragmentIdx; i++) {
+	    s.frNodes[s.frOrder[i]].forEach(function (e) {
 		e.classList.add("fragment-visited");
+		if (e.hasAttribute("data-onvisit")) eval(e.getAttribute("data-onvisit"));
 	    }
-	}				       );
-    }
-    // cancel onvisit from later fragments
-    for(i=fidx+1; i<nfrag; i++) {
-	d.frNodes[d.frOrder[i]].forEach(function (e) {
-	    if(e.hasAttribute("data-rev")) {
-		eval(e.getAttribute("data-rev"));
-		
-	    }
-	});
-    }
+	    ); 
+	}
 
-	
-    currentSlide.querySelectorAll(".current-fragment[data-onvisit]").forEach(
-	function (e) { eval(e.getAttribute("data-onvisit")) }
-    );
-    
-    
+	// Deal with current fragment
+	// Remove current fragment and add fragment visited to the last rendered fragment
+	s.frNodes[s.frOrder[fragmentIdx]].forEach(function (e) {
+	    e.classList.add("current-fragment");
+	    if (e.hasAttribute("data-onvisit")) eval(e.getAttribute("data-onvisit"));
+	}
+						 );
+    } else if (lastFragmentIdx > fragmentIdx) {
+	// The last rendered fragment is after the current one
+
+	// Remove fragment visited and current-fragment info, and reverse function
+	for(i=lastFragmentIdx; i>fragmentIdx; i--) {
+	    s.frNodes[s.frOrder[i]].forEach(function (e) {
+		e.classList.remove("fragment-visited");
+		e.classList.remove("current-fragment");
+		if (e.hasAttribute("data-rev")) eval(e.getAttribute("data-rev"));
+	    }
+					   ); 
+
+	}
+
+	// Remove fragment visited and add current-fragment to the rendered one
+
+	s.frNodes[s.frOrder[fragmentIdx]].forEach(function (e) {
+	    e.classList.remove("fragment-visited");
+	    e.classList.add("current-fragment");
+	    if (e.hasAttribute("data-onvisit")) eval(e.getAttribute("data-onvisit"));
+	}
+						 );
+    }
+    // Update info concerning the last rendered fragment
+    s.currentFrag = fragmentIdx;
+    document.querySelector(".slide-number").innerHTML = `${nstate.sidx+1}/${slidesArray.length} (${nstate.fidx+1})`;
     window.location.hash = `/${nstate.sidx}.${nstate.fidx}`;
 
-    /* todo: execute onvisit, add slide number */
+    return 1;
 }
+
 
 document.addEventListener("DOMContentLoaded", function (e) {
     // data src for reveal compatibility
@@ -175,6 +187,8 @@ document.addEventListener("DOMContentLoaded", function (e) {
 		var fidx = parseInt(l[1]);
 		state.sidx = isNaN(sidx) ? 0 : sidx;
 		state.fidx = isNaN(fidx) ? 0 : fidx;
+		if (state.sidx >= slides.length) { state.sidx = 0; state.fidx = 0; }
+		if (state.fidx > Object.keys(slides[state.sidx].frNodes).length) { state.fidx=0; }
 	    }
 	}
     }    
@@ -192,20 +206,20 @@ document.addEventListener("DOMContentLoaded", function (e) {
     divControl.id = "monoski-controler";
     var buttonPrev = document.createElement("button");
     var buttonNext = document.createElement("button");
-    var buttonPrint = document.createElement("button");
+    // var buttonPrint = document.createElement("button");
 
     buttonPrev.innerHTML = "<";
-    buttonPrint.innerHTML = "🖨";
+    // buttonPrint.innerHTML = "🖨";
     buttonNext.innerHTML = ">";
     
     divControl.append(buttonPrev);
-    divControl.append(buttonPrint);
+    // divControl.append(buttonPrint);
     divControl.append(buttonNext);
 
     buttonPrev.addEventListener('click', function(e) { state = prevSlide(slides, state)});
     buttonNext.addEventListener('click', function(e) { state = nextSlide(slides, state)});
 
-    buttonPrint.addEventListener('click', function(e) { window.print(); });
+    // buttonPrint.addEventListener('click', function(e) { window.print(); });
     document.body.appendChild(divControl);
 
 
